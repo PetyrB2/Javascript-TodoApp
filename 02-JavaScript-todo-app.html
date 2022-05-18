@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+  <head>
+    <meta charset="utf-8">
+    <title>JavaScript TODO APP - Working with JSON</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:xd_Signature msdt:dt="string"></mso:xd_Signature>
+<mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Editor msdt:dt="string">Williams, Peter</mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Editor>
+<mso:Order msdt:dt="string">2057800.00000000</mso:Order>
+<mso:ComplianceAssetId msdt:dt="string"></mso:ComplianceAssetId>
+<mso:TemplateUrl msdt:dt="string"></mso:TemplateUrl>
+<mso:xd_ProgID msdt:dt="string"></mso:xd_ProgID>
+<mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Author msdt:dt="string">Williams, Peter</mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Author>
+<mso:ContentTypeId msdt:dt="string">0x0101002F8B50CBB92E5F41911ED786D3B798D0</mso:ContentTypeId>
+<mso:_SourceUrl msdt:dt="string"></mso:_SourceUrl>
+<mso:_SharedFileIndex msdt:dt="string"></mso:_SharedFileIndex>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>
+
+  <body>
+
+    <div class="container">
+      <h1>Peter's Todo App</h1>
+      <h2>Written in Javascript</h2>
+
+      <!-- The Divs making the table for the items to go in -->
+      <div class="row mt-4">
+        <div class="col-8">
+          
+           <!--THE ID OF THE LIST - we need this for the JScript to call it -->
+          <ul id="todo-list">  
+            
+          </ul>
+          <!--THE ID OF THE LIST - we need this for the JScript to call it -->
+
+        </div>
+        <div class="col-4">
+      <!-- The Divs making the table for the items to go in -->
+
+      <!-- THE ADD BUTTON -->
+          <form>
+            <input type="text" class="form-control" id="todoTitle" placeholder="Todo title...">
+            <button onclick="newTodo()" class="addBtn btn btn-sm btn-primary form-control mt-3">Add</span>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+  </body>
+
+  <!--  BEGIN THE JAVASCRIPT  -->
+  <script>
+
+    // An Empty ARRAY to fill with out TODO Items.
+    var json_data = [];
+    
+    // Load the list into 
+    var myList = document.getElementById("todo-list");
+    
+    // JSON DATA 
+    json_data.forEach(element => {
+      newTodo(element.title);
+    });
+
+    registerEventListeners();  // REGISTER THE EVENT LISTENER TO CREATE A NEW DELETE BUTTON EVERY TIME WE MAKE A NEW ITEM
+    // DELETE BUTTON
+    
+    
+    function registerEventListeners() {
+      var closeButtons = document.getElementsByClassName("delete");
+    for (var i = 0; i < closeButtons.length; i++) {
+      closeButtons[i].addEventListener('click', deleteTodo, false);
+    }
+  }
+
+    // The DELETE BIT ---- Delete Todo ITEM --- Deletes a li from the list. 
+    function deleteTodo() {
+      var li = this.parentElement;
+      myList.removeChild(li);
+  }
+ 
+    // The New Item Function -- This Adds Items to the List creates an li (listItem)
+    function newTodo(todoTitle) {
+      if (!todoTitle) {
+        todoTitle = document.getElementById("todoTitle").value;
+      }
+      var listItem = document.createElement("li");
+      listItem.appendChild(
+        document.createTextNode(todoTitle)
+      );
+
+      // Creates a Delete Link in the form of a Button thanks to Bootstrap styles. (see link above in head)
+      var deleteLink = document.createElement("a");
+      deleteLink.href = "#";
+      deleteLink.className = "btn btn-sm btn-danger m-1 delete";   // Bootstrap Styles implemented here
+      deleteLink.appendChild(
+        document.createTextNode("Delete") 
+      );
+
+      //Important stuff below - We Need to ADD our Functions we want to run here THE FUNCTION. i.e. The Delete LInk, Appending New Items to the List and the Event Listener to listen for Delete Click
+      listItem.appendChild(deleteLink);
+      myList.appendChild(listItem);
+      registerEventListeners(); 
+    }
+  </script>
+
+</html>
